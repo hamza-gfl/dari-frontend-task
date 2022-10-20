@@ -1,12 +1,14 @@
 import { iColumn, iFilter } from '../interfaces/logInterfaces'
-export const FILTERS: iFilter[] = [
-    {
-        label: 'Employee Name',
-        type: 'input',
-        inputType: 'text',
-        options: [],
-        key: 'employeeName',
-    },
+
+export const TABLE_FILTER_KEYS = {
+    actionType: 'actionType',
+    applicationType: 'applicationType',
+    applicationId: 'applicationId',
+    fromDate: 'fromDate',
+    toDate: 'toDate',
+} as const
+
+export const TABLE_FILTERS: iFilter[] = [
     {
         label: 'Action Type',
         type: 'select',
@@ -25,7 +27,7 @@ export const FILTERS: iFilter[] = [
             },
         ],
         inputType: '',
-        key: 'actionType',
+        key: TABLE_FILTER_KEYS.actionType,
     },
     {
         label: 'Application Type',
@@ -45,28 +47,28 @@ export const FILTERS: iFilter[] = [
             },
         ],
         inputType: '',
-        key: 'applicationType',
+        key: TABLE_FILTER_KEYS.applicationType,
     },
     {
         label: 'From Date',
         type: 'input',
         inputType: 'date',
         options: [],
-        key: 'fromDate',
+        key: TABLE_FILTER_KEYS.fromDate,
     },
     {
         label: 'to Date',
         type: 'input',
         inputType: 'date',
         options: [],
-        key: 'toDate',
+        key: TABLE_FILTER_KEYS.toDate,
     },
     {
         label: 'Application ID',
         type: 'input',
         inputType: 'text',
         options: [],
-        key: 'applicationId',
+        key: TABLE_FILTER_KEYS.applicationId,
     },
 ]
 
