@@ -1,53 +1,76 @@
-export const FILTERS = [
+import { iColumn, iFilter } from '../interfaces/logInterfaces'
+export const FILTERS: iFilter[] = [
     {
         label: 'Employee Name',
         type: 'input',
         inputType: 'text',
         options: [],
+        key: 'employeeName',
     },
     {
         label: 'Action Type',
         type: 'select',
         options: [
             {
-                label: 'Submit application',
-                value: 'Submit application',
+                label: 'DARI Refresh Token',
+                value: 'DARI_REFRESH_TOKEN',
+            },
+            {
+                label: 'DARI App Login',
+                value: 'DARI_APP_LOGIN',
+            },
+            {
+                label: 'Initiate  Application',
+                value: 'INITIATE_APPLICATION',
             },
         ],
         inputType: '',
+        key: 'actionType',
     },
     {
         label: 'Application Type',
         type: 'select',
         options: [
             {
-                label: 'Lease renewal',
-                value: 'Lease renewal',
+                label: 'Cert Title Deed Plot',
+                value: 'CERT_TITLE_DEED_PLOT',
+            },
+            {
+                label: 'Lease Registration',
+                value: 'LEASE_REGISTRATION',
+            },
+            {
+                label: 'Add POA',
+                value: 'ADD_POA',
             },
         ],
-        input: '',
+        inputType: '',
+        key: 'applicationType',
     },
     {
         label: 'From Date',
         type: 'input',
         inputType: 'date',
         options: [],
+        key: 'fromDate',
     },
     {
         label: 'to Date',
         type: 'input',
         inputType: 'date',
         options: [],
+        key: 'toDate',
     },
     {
         label: 'Application ID',
         type: 'input',
         inputType: 'text',
         options: [],
+        key: 'applicationId',
     },
 ]
 
-export const COLUMNS = [
+export const COLUMNS: iColumn[] = [
     {
         label: 'Log ID',
         key: 'logId',
@@ -73,17 +96,3 @@ export const COLUMNS = [
         key: 'creationTimestamp',
     },
 ]
-
-const tableKeys = COLUMNS.map((c) => c.key)
-console.log(typeof tableKeys)
-export type keyType =
-    | 'logId'
-    | 'applicationId'
-    | 'applicationType'
-    | 'actionType'
-    | 'logInfo'
-    | 'creationTimestamp'
-// interface iColumn {
-//     label: string
-//     key: COLUMNS.map((c) => c.key) as const;
-// }
