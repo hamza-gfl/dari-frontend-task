@@ -6,15 +6,15 @@ export interface iLog {
     creationTimestamp: string
     actionType: string
     logInfo: string | null
+    creationDateInMilliSeconds: number
 }
 
 interface iOptions {
     label: string
     value: string
 }
-
+// TODO: Try yo use TABLE_FILTER_KEYS to define types.
 export type FilterKeyType =
-    | 'employeeName'
     | 'applicationId'
     | 'applicationType'
     | 'actionType'

@@ -1,100 +1,63 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react'
+import React, { ChangeEvent, Dispatch, FC, useEffect, useState } from 'react'
 import './table.css'
-import { COLUMNS, FILTERS } from '../../constant/constants'
-import { Button, Col, Container, Row } from 'react-bootstrap'
+import { COLUMNS } from '../../constant/constants'
+import { Container, Row } from 'react-bootstrap'
 import BsTable from 'react-bootstrap/Table'
-import Form from 'react-bootstrap/Form'
 import { FilterKeyType, iLog } from '../../interfaces/logInterfaces'
 import { Pagination } from '../pagination/Pagination'
+import { TableFilters } from '../table-filters/TableFilters'
+import { iFilterValues } from '../../pages/home/Home'
 
-interface iTable {
+interface iTableProps {
     list: iLog[]
+    filterValues: iFilterValues
+    setFilterValues: Dispatch<iFilterValues>
+    filterList: () => void
 }
 
-const Table: FC<iTable> = ({ list }) => {
+const Table: FC<iTableProps> = ({
+    list,
+    filterValues,
+    setFilterValues,
+    filterList,
+}) => {
     const [activePage, setActivePage] = useState(1)
     const [rowLimit] = useState(10)
-    const [filters, setFilters] = useState({
-        employeeName: '',
-        actionType: '',
-        applicationType: '',
-        fromDate: '',
-        toDate: '',
-        applicationId: '',
-    })
     const [filteredList, setFilteredList] = useState<iLog[]>([])
     const [pageList, setPageList] = useState<number[]>([1])
 
     useEffect(() => {
+        const noOfPage = list.length > 0 ? Math.ceil(list.length / rowLimit) : 1
         list.length > 0 &&
-            setPageList(
-                Array.from(
-                    { length: Math.ceil(list.length / rowLimit) },
-                    (_, i) => i + 1
-                )
-            )
-    }, [list.length])
+            setPageList(Array.from({ length: noOfPage }, (_, i) => i + 1))
+        noOfPage < activePage && setActivePage(noOfPage)
+    }, [list.length, rowLimit])
 
     useEffect(() => {
-        list.length &&
-            setFilteredList(
-                list.slice(
-                    (activePage - 1) * rowLimit,
-                    (activePage - 1) * rowLimit + rowLimit
-                )
-            )
-    }, [activePage, list])
+        setFilteredList(
+            list.length
+                ? list.slice(
+                      (activePage - 1) * rowLimit,
+                      (activePage - 1) * rowLimit + rowLimit
+                  )
+                : []
+        )
+    }, [activePage, list, rowLimit])
 
     const changeActivePage = (page: number) => setActivePage(page)
-    const changeFilter = (
+
+    const changeFilterValue = (
         e: ChangeEvent<HTMLSelectElement | HTMLInputElement>,
         key: FilterKeyType
-    ) => setFilters({ ...filters, [key]: e.target.value })
+    ) => setFilterValues({ ...filterValues, [key]: e.target.value })
+
     return (
         <Container fluid>
-            <Row className="m-4">
-                {FILTERS.map(
-                    ({ label, type, inputType, options, key }, index) => (
-                        <Col
-                            key={index}
-                            className="col align-items-start justify-content-between d-flex flex-col"
-                        >
-                            <label> {label} </label>
-                            {type === 'input' ? (
-                                <input
-                                    value={filters[key]}
-                                    type={inputType}
-                                    className="filter-input"
-                                    onChange={(e) => changeFilter(e, key)}
-                                />
-                            ) : (
-                                <Form.Select
-                                    className="filter-input width-100"
-                                    value={filters[key]}
-                                    onChange={(e) => changeFilter(e, key)}
-                                >
-                                    <option disabled value="">
-                                        Choose a value
-                                    </option>
-                                    {options.map((option, index) => (
-                                        <option
-                                            key={index}
-                                            value={option.value}
-                                        >
-                                            {option.label}
-                                        </option>
-                                    ))}
-                                </Form.Select>
-                            )}
-                        </Col>
-                    )
-                )}
-                <Col className="d-flex align-items-end justify-content-center">
-                    <Button className="btn primary-btn w-100">
-                        Search Ledger
-                    </Button>
-                </Col>
-            </Row>
+            <TableFilters
+                changeFilterValue={changeFilterValue}
+                filterValues={filterValues}
+                filterList={filterList}
+            />
             <Row className="m-4 table-container">
                 <BsTable responsive>
                     <thead>
