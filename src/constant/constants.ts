@@ -1,53 +1,78 @@
-export const FILTERS = [
-    {
-        label: 'Employee Name',
-        type: 'input',
-        inputType: 'text',
-        options: [],
-    },
+import { iColumn, iFilter } from '../interfaces/logInterfaces'
+
+export const TABLE_FILTER_KEYS = {
+    actionType: 'actionType',
+    applicationType: 'applicationType',
+    applicationId: 'applicationId',
+    fromDate: 'fromDate',
+    toDate: 'toDate',
+} as const
+
+export const TABLE_FILTERS: iFilter[] = [
     {
         label: 'Action Type',
         type: 'select',
         options: [
             {
-                label: 'Submit application',
-                value: 'Submit application',
+                label: 'DARI Refresh Token',
+                value: 'DARI_REFRESH_TOKEN',
+            },
+            {
+                label: 'DARI App Login',
+                value: 'DARI_APP_LOGIN',
+            },
+            {
+                label: 'Initiate  Application',
+                value: 'INITIATE_APPLICATION',
             },
         ],
         inputType: '',
+        key: TABLE_FILTER_KEYS.actionType,
     },
     {
         label: 'Application Type',
         type: 'select',
         options: [
             {
-                label: 'Lease renewal',
-                value: 'Lease renewal',
+                label: 'Cert Title Deed Plot',
+                value: 'CERT_TITLE_DEED_PLOT',
+            },
+            {
+                label: 'Lease Registration',
+                value: 'LEASE_REGISTRATION',
+            },
+            {
+                label: 'Add POA',
+                value: 'ADD_POA',
             },
         ],
-        input: '',
+        inputType: '',
+        key: TABLE_FILTER_KEYS.applicationType,
     },
     {
         label: 'From Date',
         type: 'input',
         inputType: 'date',
         options: [],
+        key: TABLE_FILTER_KEYS.fromDate,
     },
     {
         label: 'to Date',
         type: 'input',
         inputType: 'date',
         options: [],
+        key: TABLE_FILTER_KEYS.toDate,
     },
     {
         label: 'Application ID',
         type: 'input',
         inputType: 'text',
         options: [],
+        key: TABLE_FILTER_KEYS.applicationId,
     },
 ]
 
-export const COLUMNS = [
+export const COLUMNS: iColumn[] = [
     {
         label: 'Log ID',
         key: 'logId',
@@ -73,17 +98,3 @@ export const COLUMNS = [
         key: 'creationTimestamp',
     },
 ]
-
-const tableKeys = COLUMNS.map((c) => c.key)
-console.log(typeof tableKeys)
-export type keyType =
-    | 'logId'
-    | 'applicationId'
-    | 'applicationType'
-    | 'actionType'
-    | 'logInfo'
-    | 'creationTimestamp'
-// interface iColumn {
-//     label: string
-//     key: COLUMNS.map((c) => c.key) as const;
-// }
