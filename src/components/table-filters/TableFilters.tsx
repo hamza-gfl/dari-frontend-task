@@ -25,7 +25,7 @@ export const TableFilters: FC<iTableFiltersProps> = ({
                 ({ label, type, inputType, options, key }, index) => (
                     <Col
                         key={index}
-                        className="col align-items-start justify-content-between d-flex flex-col"
+                        className="align-items-start justify-content-between d-flex flex-column"
                     >
                         <label> {label} </label>
                         {type === 'input' ? (
