@@ -31,7 +31,7 @@ const Table: FC<iTableProps> = ({
         list.length > 0 &&
             setPageList(Array.from({ length: noOfPage }, (_, i) => i + 1))
         noOfPage < activePage && setActivePage(noOfPage)
-    }, [list.length, rowLimit])
+    }, [list.length, rowLimit, activePage])
 
     useEffect(() => {
         setFilteredList(

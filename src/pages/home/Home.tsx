@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Table from '../../components/table/Table'
 import { getLogListService } from '../../services/logServices'
 import { iLog } from '../../interfaces/logInterfaces'
 import { TABLE_FILTER_KEYS } from '../../constant/constants'
+import { compareWithDate } from '../../utils/utils'
 
 export interface iFilterValues {
     [TABLE_FILTER_KEYS.actionType]: string
@@ -23,41 +24,7 @@ function Home() {
         applicationId: '',
     })
 
-    useEffect(() => {
-        filterList()
-    }, [logList])
-
-    useEffect(() => {
-        getLogList()
-    }, [])
-
-    const getLogList = async () => {
-        let logs = await getLogListService()
-        setLogList(logs)
-    }
-
-    const compareWithDate = (log: iLog) => {
-        if (
-            filterValues[TABLE_FILTER_KEYS.toDate] === '' &&
-            filterValues[TABLE_FILTER_KEYS.fromDate] === ''
-        ) {
-            return true
-        }
-        let fromDate = filterValues[TABLE_FILTER_KEYS.fromDate]
-            ? new Date(filterValues[TABLE_FILTER_KEYS.fromDate]).getTime()
-            : 0
-
-        let toDate = filterValues[TABLE_FILTER_KEYS.toDate]
-            ? new Date(filterValues[TABLE_FILTER_KEYS.toDate]).getTime()
-            : Infinity
-
-        return (
-            log.creationDateInMilliSeconds >= fromDate &&
-            log.creationDateInMilliSeconds <= toDate
-        )
-    }
-
-    const filterList = () => {
+    const filterList = useCallback(() => {
         SetFilteredList(
             logList.filter((log) =>
                 Object.keys(filterValues).every((key) => {
@@ -67,7 +34,11 @@ function Home() {
                         )
                     }
                     if (key === 'fromDate') {
-                        return compareWithDate(log)
+                        return compareWithDate(
+                            log,
+                            filterValues[TABLE_FILTER_KEYS.fromDate],
+                            filterValues[TABLE_FILTER_KEYS.toDate]
+                        )
                     }
                     if (key === 'applicationId') {
                         return (
@@ -79,6 +50,19 @@ function Home() {
                 })
             )
         )
+    }, [filterValues, logList])
+
+    useEffect(() => {
+        filterList()
+    }, [logList, filterList])
+
+    useEffect(() => {
+        getLogList()
+    }, [])
+
+    const getLogList = async () => {
+        let logs = await getLogListService()
+        setLogList(logs)
     }
 
     return (
