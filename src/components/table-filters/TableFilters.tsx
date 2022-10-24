@@ -1,4 +1,4 @@
-import { TABLE_FILTERS } from '../../constant/constants'
+import { TABLE_FILTERS } from '../../constant/logConstants'
 import { Button, Col, Row } from 'react-bootstrap'
 import Form from 'react-bootstrap/Form'
 import React, { ChangeEvent, FC } from 'react'
@@ -41,9 +41,7 @@ export const TableFilters: FC<iTableFiltersProps> = ({
                                 value={filterValues[key]}
                                 onChange={(e) => changeFilterValue(e, key)}
                             >
-                                <option disabled value="">
-                                    Choose a value
-                                </option>
+                                <option value="">Choose a value</option>
                                 {options.map((option, index) => (
                                     <option key={index} value={option.value}>
                                         {option.label}

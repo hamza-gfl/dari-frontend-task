@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import Table from '../../components/table/Table'
 import { getLogListService } from '../../services/logServices'
-import { iLog } from '../../interfaces/logInterfaces'
-import { TABLE_FILTER_KEYS } from '../../constant/constants'
-import { compareWithDate } from '../../utils/utils'
+import { FilterKeyType, iLog } from '../../interfaces/logInterfaces'
+import { TABLE_FILTER_KEYS } from '../../constant/logConstants'
+import { compareWithDate } from '../../utils/logUtils'
 
 export interface iFilterValues {
     [TABLE_FILTER_KEYS.actionType]: string
@@ -65,12 +65,17 @@ function Home() {
         setLogList(logs)
     }
 
+    const changeFilterValue = (
+        e: ChangeEvent<HTMLSelectElement | HTMLInputElement>,
+        key: FilterKeyType
+    ) => setFilterValues({ ...filterValues, [key]: e.target.value })
+
     return (
         <div>
             <Table
                 list={filteredList}
                 filterValues={filterValues}
-                setFilterValues={setFilterValues}
+                changeFilterValue={changeFilterValue}
                 filterList={filterList}
             />
         </div>

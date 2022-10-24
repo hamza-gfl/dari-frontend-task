@@ -1,6 +1,6 @@
-import React, { ChangeEvent, Dispatch, FC, useEffect, useState } from 'react'
+import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react'
 import './table.css'
-import { COLUMNS } from '../../constant/constants'
+import { COLUMNS } from '../../constant/logConstants'
 import { Container, Row } from 'react-bootstrap'
 import BsTable from 'react-bootstrap/Table'
 import { FilterKeyType, iLog } from '../../interfaces/logInterfaces'
@@ -11,27 +11,27 @@ import { iFilterValues } from '../../pages/home/Home'
 interface iTableProps {
     list: iLog[]
     filterValues: iFilterValues
-    setFilterValues: Dispatch<iFilterValues>
+    changeFilterValue: (
+        e: ChangeEvent<HTMLSelectElement | HTMLInputElement>,
+        key: FilterKeyType
+    ) => void
     filterList: () => void
 }
 
 const Table: FC<iTableProps> = ({
     list,
     filterValues,
-    setFilterValues,
+    changeFilterValue,
     filterList,
 }) => {
     const [activePage, setActivePage] = useState(1)
     const [rowLimit] = useState(10)
     const [filteredList, setFilteredList] = useState<iLog[]>([])
-    const [pageList, setPageList] = useState<number[]>([1])
+    const [noOfPages, setNoOfPages] = useState<number>(1)
 
     useEffect(() => {
-        const noOfPage = list.length > 0 ? Math.ceil(list.length / rowLimit) : 1
-        list.length > 0 &&
-            setPageList(Array.from({ length: noOfPage }, (_, i) => i + 1))
-        noOfPage < activePage && setActivePage(noOfPage)
-    }, [list.length, rowLimit, activePage])
+        setNoOfPages(list.length > 0 ? Math.ceil(list.length / rowLimit) : 1)
+    }, [list.length, setNoOfPages, rowLimit])
 
     useEffect(() => {
         setFilteredList(
@@ -44,12 +44,10 @@ const Table: FC<iTableProps> = ({
         )
     }, [activePage, list, rowLimit])
 
-    const changeActivePage = (page: number) => setActivePage(page)
-
-    const changeFilterValue = (
-        e: ChangeEvent<HTMLSelectElement | HTMLInputElement>,
-        key: FilterKeyType
-    ) => setFilterValues({ ...filterValues, [key]: e.target.value })
+    const changeActivePage = useCallback(
+        (page: number) => setActivePage(page),
+        [setActivePage]
+    )
 
     return (
         <Container fluid>
@@ -81,7 +79,7 @@ const Table: FC<iTableProps> = ({
             <Row>
                 <Pagination
                     changeActivePage={changeActivePage}
-                    pageList={pageList}
+                    noOfPages={noOfPages}
                     activePage={activePage}
                 />
             </Row>
