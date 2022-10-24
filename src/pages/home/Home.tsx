@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import Table from '../../components/table/Table'
 import { getLogListService } from '../../services/logServices'
 import { FilterKeyType, iLog } from '../../interfaces/logInterfaces'
@@ -24,7 +24,7 @@ function Home() {
         applicationId: '',
     })
 
-    const filterList = useCallback(() => {
+    const filterLogList = () => {
         SetFilteredList(
             logList.filter((log) =>
                 Object.keys(filterValues).every((key) => {
@@ -50,11 +50,11 @@ function Home() {
                 })
             )
         )
-    }, [filterValues, logList])
+    }
 
     useEffect(() => {
-        filterList()
-    }, [logList, filterList])
+        filterLogList()
+    }, [logList]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         getLogList()
@@ -76,7 +76,7 @@ function Home() {
                 list={filteredList}
                 filterValues={filterValues}
                 changeFilterValue={changeFilterValue}
-                filterList={filterList}
+                filterList={filterLogList}
             />
         </div>
     )
