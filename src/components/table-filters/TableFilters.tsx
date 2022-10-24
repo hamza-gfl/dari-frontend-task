@@ -1,14 +1,24 @@
 import { TABLE_FILTERS } from '../../constant/logConstants'
-import { Button, Col, Row } from 'react-bootstrap'
-import Form from 'react-bootstrap/Form'
+import Button from '@mui/material/Button'
 import React, { ChangeEvent, FC } from 'react'
 import { FilterKeyType } from '../../interfaces/logInterfaces'
 import { iFilterValues } from '../../pages/home/Home'
+import {
+    Grid,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    TextField,
+    Typography,
+} from '@mui/material'
+import './tableFilters.css'
 
 interface iTableFiltersProps {
     filterValues: iFilterValues
     changeFilterValue: (
-        e: ChangeEvent<HTMLSelectElement | HTMLInputElement>,
+        e:
+            | SelectChangeEvent
+            | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
         key: FilterKeyType
     ) => void
     filterList: () => void
@@ -20,43 +30,63 @@ export const TableFilters: FC<iTableFiltersProps> = ({
     filterList,
 }) => {
     return (
-        <Row className="m-4">
+        <>
             {TABLE_FILTERS.map(
                 ({ label, type, inputType, options, key }, index) => (
-                    <Col
+                    <Grid
+                        item
+                        xs={2}
+                        sx={{
+                            marginRight: '10px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'flex-start',
+                        }}
                         key={index}
-                        className="align-items-start justify-content-between d-flex flex-column"
                     >
-                        <label> {label} </label>
+                        <Typography>{label}</Typography>
                         {type === 'input' ? (
-                            <input
+                            <TextField
+                                sx={{ marginTop: '5px' }}
                                 value={filterValues[key]}
                                 type={inputType}
                                 className="filter-input"
                                 onChange={(e) => changeFilterValue(e, key)}
                             />
                         ) : (
-                            <Form.Select
-                                className="filter-input width-100"
+                            <Select
+                                className="filter-input"
                                 value={filterValues[key]}
                                 onChange={(e) => changeFilterValue(e, key)}
                             >
-                                <option value="">Choose a value</option>
+                                <MenuItem value="">Choose a value</MenuItem>
                                 {options.map((option, index) => (
-                                    <option key={index} value={option.value}>
+                                    <MenuItem key={index} value={option.value}>
                                         {option.label}
-                                    </option>
+                                    </MenuItem>
                                 ))}
-                            </Form.Select>
+                            </Select>
                         )}
-                    </Col>
+                    </Grid>
                 )
             )}
-            <Col className="d-flex align-items-end justify-content-center">
-                <Button className="btn primary-btn w-100" onClick={filterList}>
+            <Grid
+                item
+                xs={2}
+                sx={{
+                    marginRight: '10px',
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                }}
+            >
+                <Button
+                    sx={{ width: '100%', height: '38px' }}
+                    variant="contained"
+                    onClick={filterList}
+                >
                     Search Ledger
                 </Button>
-            </Col>
-        </Row>
+            </Grid>
+        </>
     )
 }

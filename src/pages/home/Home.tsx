@@ -4,6 +4,7 @@ import { getLogListService } from '../../services/logServices'
 import { FilterKeyType, iLog } from '../../interfaces/logInterfaces'
 import { TABLE_FILTER_KEYS } from '../../constant/logConstants'
 import { compareWithDate } from '../../utils/logUtils'
+import { SelectChangeEvent } from '@mui/material'
 
 export interface iFilterValues {
     [TABLE_FILTER_KEYS.actionType]: string
@@ -66,7 +67,9 @@ function Home() {
     }
 
     const changeFilterValue = (
-        e: ChangeEvent<HTMLSelectElement | HTMLInputElement>,
+        e:
+            | SelectChangeEvent<string>
+            | ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
         key: FilterKeyType
     ) => setFilterValues({ ...filterValues, [key]: e.target.value })
 

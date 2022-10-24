@@ -1,18 +1,29 @@
 import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react'
 import './table.css'
 import { COLUMNS } from '../../constant/logConstants'
-import { Container, Row } from 'react-bootstrap'
-import BsTable from 'react-bootstrap/Table'
 import { FilterKeyType, iLog } from '../../interfaces/logInterfaces'
-import { Pagination } from '../pagination/Pagination'
 import { TableFilters } from '../table-filters/TableFilters'
 import { iFilterValues } from '../../pages/home/Home'
+import {
+    Grid,
+    SelectChangeEvent,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+} from '@mui/material'
+import Paper from '@mui/material/Paper'
+import MuiTable from '@mui/material/Table'
+import MuiPagination from '@mui/material/Pagination'
 
 interface iTableProps {
     list: iLog[]
     filterValues: iFilterValues
     changeFilterValue: (
-        e: ChangeEvent<HTMLSelectElement | HTMLInputElement>,
+        e:
+            | SelectChangeEvent
+            | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
         key: FilterKeyType
     ) => void
     filterList: () => void
@@ -45,45 +56,62 @@ const Table: FC<iTableProps> = ({
     }, [activePage, list, rowLimit])
 
     const changeActivePage = useCallback(
-        (page: number) => setActivePage(page),
+        (_: unknown, page: number) => setActivePage(page),
         [setActivePage]
     )
 
     return (
-        <Container fluid>
-            <TableFilters
-                changeFilterValue={changeFilterValue}
-                filterValues={filterValues}
-                filterList={filterList}
-            />
-            <Row className="m-4 table-container">
-                <BsTable responsive>
-                    <thead>
-                        <tr>
-                            {COLUMNS.map(({ label }) => (
-                                <th key={label}>{label}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredList.map((log, index) => (
-                            <tr key={index}>
-                                {COLUMNS.map((column, index) => (
-                                    <td key={index}>{log[column.key]}</td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </BsTable>
-            </Row>
-            <Row>
-                <Pagination
-                    changeActivePage={changeActivePage}
-                    noOfPages={noOfPages}
-                    activePage={activePage}
+        <Grid container sx={{ padding: '0 40px' }}>
+            <Grid item xs={12} sx={{ display: 'flex', margin: '20px 0' }}>
+                <TableFilters
+                    changeFilterValue={changeFilterValue}
+                    filterValues={filterValues}
+                    filterList={filterList}
                 />
-            </Row>
-        </Container>
+            </Grid>
+            <Grid item xs={12} className="table-container">
+                <TableContainer component={Paper}>
+                    <MuiTable sx={{ minWidth: 650 }}>
+                        <TableHead>
+                            <TableRow>
+                                {COLUMNS.map(({ label }) => (
+                                    <TableCell key={label}>{label}</TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {filteredList.map((log, index) => (
+                                <TableRow key={index}>
+                                    {COLUMNS.map((column, index) => (
+                                        <TableCell key={index}>
+                                            {log[column.key]}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </MuiTable>
+                </TableContainer>
+            </Grid>
+            <Grid
+                item
+                xs={12}
+                sx={{
+                    padding: '20px 0',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            >
+                <MuiPagination
+                    onChange={changeActivePage}
+                    variant="outlined"
+                    count={noOfPages}
+                    color="primary"
+                    shape="rounded"
+                    page={activePage}
+                />
+            </Grid>
+        </Grid>
     )
 }
 
