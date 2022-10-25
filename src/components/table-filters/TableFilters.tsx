@@ -50,14 +50,15 @@ export const TableFilters: FC<iTableFiltersProps> = ({
                                 sx={{ marginTop: '5px' }}
                                 value={filterValues[key]}
                                 type={inputType}
-                                className="filter-input"
+                                className="filter-field text-input"
                                 onChange={(e) => changeFilterValue(e, key)}
                             />
                         ) : (
                             <Select
-                                className="filter-input"
+                                className="filter-field"
                                 value={filterValues[key]}
                                 onChange={(e) => changeFilterValue(e, key)}
+                                sx={{ textAlign: 'left', paddingLeft: 0 }}
                             >
                                 <MenuItem value="">Choose a value</MenuItem>
                                 {options.map((option, index) => (
