@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useMemo, useState } from 'react'
-import BsPagination from 'react-bootstrap/Pagination'
 import { getEllipsePagination } from '../../utils/logUtils'
 
 interface iPaginationProps {
@@ -28,20 +27,21 @@ export const Pagination: FC<iPaginationProps> = ({
     )
 
     return (
-        <BsPagination className="justify-content-center">
-            {visiblePages.map((page, index) =>
-                page === 0 ? (
-                    <BsPagination.Ellipsis key={`${page}-${index}`} />
-                ) : (
-                    <BsPagination.Item
-                        onClick={() => changeActivePage(page)}
-                        key={`${page}-${index}`}
-                        active={page === activePage}
-                    >
-                        {page}
-                    </BsPagination.Item>
-                )
-            )}
-        </BsPagination>
+        <></>
+        // <BsPagination className="justify-content-center">
+        //     {visiblePages.map((page, index) =>
+        //         page === 0 ? (
+        //             <BsPagination.Ellipsis key={`${page}-${index}`} />
+        //         ) : (
+        //             <BsPagination.Item
+        //                 onClick={() => changeActivePage(page)}
+        //                 key={`${page}-${index}`}
+        //                 active={page === activePage}
+        //             >
+        //                 {page}
+        //             </BsPagination.Item>
+        //         )
+        //     )}
+        // </BsPagination>
     )
 }

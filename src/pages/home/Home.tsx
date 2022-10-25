@@ -5,6 +5,7 @@ import { FilterKeyType, iLog } from '../../interfaces/logInterfaces'
 import { TABLE_FILTER_KEYS } from '../../constant/logConstants'
 import { compareWithDate } from '../../utils/logUtils'
 import { SelectChangeEvent } from '@mui/material'
+import { useCustomSearchParams } from '../../custom-hooks/customSearchParam'
 
 export interface iFilterValues {
     [TABLE_FILTER_KEYS.actionType]: string
@@ -24,6 +25,34 @@ function Home() {
         toDate: '',
         applicationId: '',
     })
+    const [queryParams, setQueryParam] = useCustomSearchParams()
+
+    useEffect(() => {
+        filterLogList()
+    }, [logList]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
+        getLogList()
+    }, [])
+
+    useEffect(() => {
+        const actionType = queryParams[TABLE_FILTER_KEYS.actionType]
+        const applicationType = queryParams[TABLE_FILTER_KEYS.applicationType]
+        const fromDate = queryParams[TABLE_FILTER_KEYS.fromDate]
+        const toDate = queryParams[TABLE_FILTER_KEYS.toDate]
+        const applicationId = queryParams[TABLE_FILTER_KEYS.applicationId]
+        setFilterValues({
+            [TABLE_FILTER_KEYS.actionType]: actionType ? actionType : '',
+            [TABLE_FILTER_KEYS.applicationType]: applicationType
+                ? applicationType
+                : '',
+            [TABLE_FILTER_KEYS.fromDate]: fromDate ? fromDate : '',
+            [TABLE_FILTER_KEYS.toDate]: toDate ? toDate : '',
+            [TABLE_FILTER_KEYS.applicationId]: applicationId
+                ? applicationId
+                : '',
+        })
+    }, [])
 
     const filterLogList = () => {
         SetFilteredList(
@@ -53,25 +82,23 @@ function Home() {
         )
     }
 
-    useEffect(() => {
-        filterLogList()
-    }, [logList]) // eslint-disable-line react-hooks/exhaustive-deps
-
-    useEffect(() => {
-        getLogList()
-    }, [])
-
-    const getLogList = async () => {
-        let logs = await getLogListService()
-        setLogList(logs)
-    }
-
     const changeFilterValue = (
         e:
             | SelectChangeEvent<string>
             | ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
         key: FilterKeyType
-    ) => setFilterValues({ ...filterValues, [key]: e.target.value })
+    ) => {
+        setFilterValues({
+            ...filterValues,
+            [key]: e.target.value,
+        })
+        setQueryParam(key, e.target.value)
+    }
+
+    const getLogList = async () => {
+        let logs = await getLogListService()
+        setLogList(logs)
+    }
 
     return (
         <div>

@@ -16,6 +16,7 @@ import {
 import Paper from '@mui/material/Paper'
 import MuiTable from '@mui/material/Table'
 import MuiPagination from '@mui/material/Pagination'
+import { useCustomSearchParams } from '../../custom-hooks/customSearchParam'
 
 interface iTableProps {
     list: iLog[]
@@ -35,13 +36,20 @@ const Table: FC<iTableProps> = ({
     changeFilterValue,
     filterList,
 }) => {
-    const [activePage, setActivePage] = useState(1)
+    const [activePage, setActivePage] = useState(0)
     const [rowLimit] = useState(10)
     const [filteredList, setFilteredList] = useState<iLog[]>([])
     const [noOfPages, setNoOfPages] = useState<number>(1)
+    const [queryParams, setQueryParam] = useCustomSearchParams()
 
     useEffect(() => {
-        setNoOfPages(list.length > 0 ? Math.ceil(list.length / rowLimit) : 1)
+        setActivePage(queryParams['page'] ? Number(queryParams['page']) : 1)
+    }, [])
+
+    useEffect(() => {
+        const pages = list.length > 0 ? Math.ceil(list.length / rowLimit) : 1
+        setNoOfPages(pages)
+        pages < activePage && setActivePage(pages)
     }, [list.length, setNoOfPages, rowLimit])
 
     useEffect(() => {
@@ -53,6 +61,7 @@ const Table: FC<iTableProps> = ({
                   )
                 : []
         )
+        activePage && setQueryParam('page', String(activePage))
     }, [activePage, list, rowLimit])
 
     const changeActivePage = useCallback(
