@@ -22,6 +22,7 @@ export type FilterKeyType =
     | 'fromDate'
 
 export interface iFilter {
+    id: string
     label: string
     type: 'input' | 'select'
     inputType: 'text' | 'date' | ''

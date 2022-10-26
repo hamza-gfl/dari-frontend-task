@@ -5,11 +5,11 @@ import { FilterKeyType } from '../../interfaces/logInterfaces'
 import { iFilterValues } from '../../pages/home/Home'
 import {
     Grid,
+    InputLabel,
     MenuItem,
     Select,
     SelectChangeEvent,
     TextField,
-    Typography,
 } from '@mui/material'
 import './tableFilters.css'
 
@@ -32,7 +32,7 @@ export const TableFilters: FC<iTableFiltersProps> = ({
     return (
         <>
             {TABLE_FILTERS.map(
-                ({ label, type, inputType, options, key }, index) => (
+                ({ id, label, type, inputType, options, key }, index) => (
                     <Grid
                         item
                         xs={2}
@@ -44,9 +44,12 @@ export const TableFilters: FC<iTableFiltersProps> = ({
                         }}
                         key={index}
                     >
-                        <Typography>{label}</Typography>
+                        <InputLabel htmlFor={id} sx={{ fontWeight: 500 }}>
+                            {label}
+                        </InputLabel>
                         {type === 'input' ? (
                             <TextField
+                                id={id}
                                 sx={{ marginTop: '5px' }}
                                 value={filterValues[key]}
                                 type={inputType}
@@ -55,6 +58,7 @@ export const TableFilters: FC<iTableFiltersProps> = ({
                             />
                         ) : (
                             <Select
+                                id={id}
                                 className="filter-field"
                                 value={filterValues[key]}
                                 onChange={(e) => changeFilterValue(e, key)}

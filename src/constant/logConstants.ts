@@ -10,6 +10,7 @@ export const TABLE_FILTER_KEYS = {
 
 export const TABLE_FILTERS: iFilter[] = [
     {
+        id: 'action-type-field',
         label: 'Action Type',
         type: 'select',
         options: [
@@ -38,6 +39,7 @@ export const TABLE_FILTERS: iFilter[] = [
         key: TABLE_FILTER_KEYS.actionType,
     },
     {
+        id: 'application-type-field',
         label: 'Application Type',
         type: 'select',
         options: [
@@ -74,6 +76,7 @@ export const TABLE_FILTERS: iFilter[] = [
         key: TABLE_FILTER_KEYS.applicationType,
     },
     {
+        id: 'from-date-field',
         label: 'From Date',
         type: 'input',
         inputType: 'date',
@@ -81,13 +84,15 @@ export const TABLE_FILTERS: iFilter[] = [
         key: TABLE_FILTER_KEYS.fromDate,
     },
     {
-        label: 'to Date',
+        id: 'to-date-field',
+        label: 'To Date',
         type: 'input',
         inputType: 'date',
         options: [],
         key: TABLE_FILTER_KEYS.toDate,
     },
     {
+        id: 'application-id-field',
         label: 'Application ID',
         type: 'input',
         inputType: 'text',
