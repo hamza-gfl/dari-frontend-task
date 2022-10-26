@@ -49,7 +49,7 @@ const Table: FC<iTableProps> = ({
     useEffect(() => {
         const pages = list.length > 0 ? Math.ceil(list.length / rowLimit) : 1
         setNoOfPages(pages)
-        setActivePage((activePage) => (pages < activePage ? activePage : pages))
+        setActivePage((activePage) => (pages < activePage ? pages : activePage))
     }, [list.length, setNoOfPages, rowLimit])
 
     useEffect(() => {

@@ -25,6 +25,14 @@ export const TABLE_FILTERS: iFilter[] = [
                 label: 'Initiate  Application',
                 value: 'INITIATE_APPLICATION',
             },
+            {
+                label: 'Add Employee',
+                value: 'ADD_EMPLOYEE',
+            },
+            {
+                label: 'Submit Application',
+                value: 'SUBMIT_APPLICATION',
+            },
         ],
         inputType: '',
         key: TABLE_FILTER_KEYS.actionType,
@@ -44,6 +52,22 @@ export const TABLE_FILTERS: iFilter[] = [
             {
                 label: 'Add POA',
                 value: 'ADD_POA',
+            },
+            {
+                label: 'Add Company',
+                value: 'ADD_COMPANY',
+            },
+            {
+                label: 'Add Company Employee',
+                value: 'ADD_COMPANY_EMPLOYEE',
+            },
+            {
+                label: 'Cert Prop Ownership',
+                value: 'CERT_PROP_OWNERSHIP',
+            },
+            {
+                label: 'Lease Closure',
+                value: 'LEASE_CLOSURE',
             },
         ],
         inputType: '',
