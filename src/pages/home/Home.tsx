@@ -1,11 +1,11 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
-import Table from '../../components/table/Table'
+import React, { ChangeEvent, useEffect, useState, Suspense } from 'react'
 import { getLogListService } from '../../services/logServices'
 import { FilterKeyType, iLog } from '../../interfaces/logInterfaces'
 import { TABLE_FILTER_KEYS } from '../../constant/logConstants'
 import { compareWithDate } from '../../utils/logUtils'
 import { SelectChangeEvent } from '@mui/material'
 import { useCustomSearchParams } from '../../custom-hooks/customSearchParam'
+const Table = React.lazy(() => import('../../components/table/Table'))
 
 export interface iFilterValues {
     [TABLE_FILTER_KEYS.actionType]: string
@@ -102,12 +102,14 @@ function Home() {
 
     return (
         <div>
-            <Table
-                list={filteredList}
-                filterValues={filterValues}
-                changeFilterValue={changeFilterValue}
-                filterList={filterLogList}
-            />
+            <Suspense fallback={<div> Loading... </div>}>
+                <Table
+                    list={filteredList}
+                    filterValues={filterValues}
+                    changeFilterValue={changeFilterValue}
+                    filterList={filterLogList}
+                />
+            </Suspense>
         </div>
     )
 }
