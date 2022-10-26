@@ -80,7 +80,7 @@ const Table: FC<iTableProps> = ({
             </Grid>
             <Grid item xs={12} className="table-container">
                 <TableContainer component={Paper}>
-                    <MuiTable sx={{ minWidth: 650 }}>
+                    <MuiTable sx={{ minWidth: 650, minHeight: 587 }}>
                         <TableHead>
                             <TableRow>
                                 {COLUMNS.map(({ label }) => (
