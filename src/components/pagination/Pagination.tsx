@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useMemo, useState } from 'react'
 import { getEllipsePagination } from '../../utils/logUtils'
+import { Grid } from '@mui/material'
 
 interface iPaginationProps {
     noOfPages: number
@@ -27,21 +28,20 @@ export const Pagination: FC<iPaginationProps> = ({
     )
 
     return (
-        <></>
-        // <BsPagination className="justify-content-center">
-        //     {visiblePages.map((page, index) =>
-        //         page === 0 ? (
-        //             <BsPagination.Ellipsis key={`${page}-${index}`} />
-        //         ) : (
-        //             <BsPagination.Item
-        //                 onClick={() => changeActivePage(page)}
-        //                 key={`${page}-${index}`}
-        //                 active={page === activePage}
-        //             >
-        //                 {page}
-        //             </BsPagination.Item>
-        //         )
-        //     )}
-        // </BsPagination>
+        <Grid className="justify-content-center ">
+            {visiblePages.map((page, index) =>
+                page === 0 ? (
+                    <button key={`${page}-${index}`}>...</button>
+                ) : (
+                    <button
+                        onClick={() => changeActivePage(page)}
+                        key={`${page}-${index}`}
+                        className={`${activePage === page ? 'active' : ''}`}
+                    >
+                        {page}
+                    </button>
+                )
+            )}
+        </Grid>
     )
 }

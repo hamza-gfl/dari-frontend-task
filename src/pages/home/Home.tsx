@@ -52,7 +52,7 @@ function Home() {
                 ? applicationId
                 : '',
         })
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const filterLogList = () => {
         SetFilteredList(

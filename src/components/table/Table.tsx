@@ -44,12 +44,12 @@ const Table: FC<iTableProps> = ({
 
     useEffect(() => {
         setActivePage(queryParams['page'] ? Number(queryParams['page']) : 1)
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         const pages = list.length > 0 ? Math.ceil(list.length / rowLimit) : 1
         setNoOfPages(pages)
-        pages < activePage && setActivePage(pages)
+        setActivePage((activePage) => (pages < activePage ? activePage : pages))
     }, [list.length, setNoOfPages, rowLimit])
 
     useEffect(() => {
@@ -62,7 +62,7 @@ const Table: FC<iTableProps> = ({
                 : []
         )
         activePage && setQueryParam('page', String(activePage))
-    }, [activePage, list, rowLimit])
+    }, [activePage, list, rowLimit, setQueryParam])
 
     const changeActivePage = useCallback(
         (_: unknown, page: number) => setActivePage(page),
