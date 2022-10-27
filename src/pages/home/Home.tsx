@@ -5,6 +5,7 @@ import { TABLE_FILTER_KEYS } from '../../constant/logConstants'
 import { compareWithDate } from '../../utils/logUtils'
 import { SelectChangeEvent } from '@mui/material'
 import { useCustomSearchParams } from '../../custom-hooks/customSearchParam'
+import { TableShimmer } from '../../components/table-shimmer/TableShimmer'
 const Table = React.lazy(() => import('../../components/table/Table'))
 
 export interface iFilterValues {
@@ -102,7 +103,7 @@ function Home() {
 
     return (
         <div>
-            <Suspense fallback={<div> Loading... </div>}>
+            <Suspense fallback={<TableShimmer />}>
                 <Table
                     list={filteredList}
                     filterValues={filterValues}
@@ -110,6 +111,7 @@ function Home() {
                     filterList={filterLogList}
                 />
             </Suspense>
+            <TableShimmer />
         </div>
     )
 }
