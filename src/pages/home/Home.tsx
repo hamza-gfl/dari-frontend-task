@@ -111,7 +111,6 @@ function Home() {
                     filterList={filterLogList}
                 />
             </Suspense>
-            <TableShimmer />
         </div>
     )
 }
