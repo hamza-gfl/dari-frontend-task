@@ -3,14 +3,13 @@ import Button from '@mui/material/Button'
 import React, { ChangeEvent, FC } from 'react'
 import { FilterKeyType } from '../../interfaces/logInterfaces'
 import { iFilterValues } from '../../pages/home/Home'
-import {
-    Grid,
-    InputLabel,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
-    TextField,
-} from '@mui/material'
+import { SelectChangeEvent } from '@mui/material'
+import Grid from '@mui/material/Grid'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
+import InputLabel from '@mui/material/InputLabel'
+
 import './tableFilters.css'
 
 interface iTableFiltersProps {
