@@ -1,0 +1,11 @@
+.filter-field {
+    border-radius: 4px;
+    margin-top: 5px;
+    height: 38px;
+    padding: 0 0.5rem;
+    width: 100%;
+}
+
+.text-input div {
+    height: 38px !important;
+}
